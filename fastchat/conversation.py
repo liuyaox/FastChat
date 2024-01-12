@@ -1416,6 +1416,8 @@ if __name__ == "__main__":
     conv.append_message(conv.roles[0], "Hello!")
     conv.append_message(conv.roles[1], "Hi!")
     conv.append_message(conv.roles[0], "How are you?")
+    conv.append_message(conv.roles[1], "Find, and you?")
+    conv.append_message(conv.roles[0], "I'm fine, too!")
     conv.append_message(conv.roles[1], None)
     print(conv.get_prompt())
 
@@ -1427,6 +1429,8 @@ if __name__ == "__main__":
     conv.append_message(conv.roles[0], "Hello!")
     conv.append_message(conv.roles[1], "Hi!")
     conv.append_message(conv.roles[0], "How are you?")
+    conv.append_message(conv.roles[1], "Find, and you?")
+    conv.append_message(conv.roles[0], "I'm fine, too!")
     conv.append_message(conv.roles[1], None)
     print(conv.get_prompt())
 
@@ -1437,6 +1441,8 @@ if __name__ == "__main__":
     conv.append_message(conv.roles[0], "Hello!")
     conv.append_message(conv.roles[1], "Hi!")
     conv.append_message(conv.roles[0], "How are you?")
+    conv.append_message(conv.roles[1], "Find, and you?")
+    conv.append_message(conv.roles[0], "I'm fine, too!")
     conv.append_message(conv.roles[1], None)
     print(conv.to_openai_api_messages())
 
@@ -1447,5 +1453,21 @@ if __name__ == "__main__":
     conv.append_message(conv.roles[0], "Hello!")
     conv.append_message(conv.roles[1], "Hi!")
     conv.append_message(conv.roles[0], "How are you?")
+    conv.append_message(conv.roles[1], "Find, and you?")
+    conv.append_message(conv.roles[0], "I'm fine, too!")
     conv.append_message(conv.roles[1], None)
     print(conv.get_prompt())
+
+    print("\n")
+
+    print("-- Zephyr template --")
+    conv = get_conv_template("zephyr")
+    conv.set_system_message("You are Zephyr.")
+    conv.append_message(conv.roles[0], "Hello!")
+    conv.append_message(conv.roles[1], "Hi!")
+    conv.append_message(conv.roles[0], "How are you?")
+    conv.append_message(conv.roles[1], "Find, and you?")
+    conv.append_message(conv.roles[0], "I'm fine, too!")
+    conv.append_message(conv.roles[1], None)
+    print(conv.get_prompt())
+

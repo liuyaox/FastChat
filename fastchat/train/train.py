@@ -185,7 +185,7 @@ class SupervisedDataset(Dataset):
 
         rank0_print("Formatting inputs...")
         sources = [example["conversations"] for example in raw_data]
-        data_dict = preprocess(sources, tokenizer)
+        data_dict = preprocess(sources, tokenizer)      # YAO：所有样本(sources)一起处理
 
         self.input_ids = data_dict["input_ids"]
         self.labels = data_dict["labels"]
@@ -221,7 +221,7 @@ class LazySupervisedDataset(Dataset):
         if i in self.cached_data_dict:
             return self.cached_data_dict[i]
 
-        ret = preprocess([self.raw_data[i]["conversations"]], self.tokenizer)
+        ret = preprocess([self.raw_data[i]["conversations"]], self.tokenizer)   # YAO：一次只处理1个样本，lazy模式
         ret = dict(
             input_ids=ret["input_ids"][0],
             labels=ret["labels"][0],
