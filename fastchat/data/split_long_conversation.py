@@ -30,8 +30,10 @@ tokenizer = max_length = None
 def split_one_sample(sample):
     tokenized_lens = []
     conversations = sample["conversations"]
-    conversations = conversations[: len(conversations) // 2 * 2]
+    conversations = conversations[: len(conversations) // 2 * 2]    # YAO：有意思，保证轮次是完整的
     for c in conversations:
+        # YAO: len(tokenizer('ASSISTANT: Hi</s>').input_ids) - len(tokenizer('Hi').input_ids) = 6  TODO: 6来源于此？
+        # YAO: len(tokenizer('USER: Hi</s>').input_ids) - len(tokenizer('Hi').input_ids) = 4    TODO: 4为啥不与6区分？没必要（不需要也很难正好填满max_length）？
         length = len(tokenizer(c["value"]).input_ids) + 6
         tokenized_lens.append(length)
 
@@ -44,8 +46,8 @@ def split_one_sample(sample):
     new_samples = []
     for i in range(0, len(conversations), 2):
         tmp_len = tokenized_lens[i] + tokenized_lens[i + 1]
-        if cur_len + tmp_len > max_length:
-            new_samples.append(make_sample(sample, start_idx, i))
+        if cur_len + tmp_len > max_length:      # YAO：一旦长度开始超过max_length，就截断至上一步，从当前步重新开始计算长度
+            new_samples.append(make_sample(sample, start_idx, i))   # YAO：直接按max_length从前往后一块块截断，不是滑动窗口
             start_idx = i
             cur_len = 0
         elif i == len(conversations) - 2:
@@ -58,7 +60,7 @@ def split_one_sample(sample):
 
 def worker(input_data):
     result = []
-    for sample in input_data:
+    for sample in input_data:           # YAO: 遍历1000个样本，每次处理1个样本（1个对话session，或长或短）
         result.extend(split_one_sample(sample))
     return result
 
@@ -75,7 +77,7 @@ def split_all(content, begin, end, tokenizer_, max_length_):
     new_content = []
 
     # Split content into chunks
-    chunks = [content[i : i + 1000] for i in range(0, len(content), 1000)]
+    chunks = [content[i : i + 1000] for i in range(0, len(content), 1000)]  # YAO: 把所有样本拆分为一些块，每块有1000个样本
     with ProcessPoolExecutor() as executor:
         for result in tqdm(executor.map(worker, chunks), total=len(chunks)):
             new_content.extend(result)
