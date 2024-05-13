@@ -47,4 +47,3 @@ python3 -m fastchat.serve.vllm_worker \
     --port 21016 \
     --controller http://0.0.0.0:21001  \
     --num-gpus 2
-

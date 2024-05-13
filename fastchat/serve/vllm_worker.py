@@ -79,7 +79,7 @@ class VLLMWorker(BaseModelWorker):
         stop_token_ids = params.get("stop_token_ids", None) or []
         if self.tokenizer.eos_token_id is not None:
             stop_token_ids.append(self.tokenizer.eos_token_id)
-        echo = params.get("echo", True)
+        echo = params.get("echo", False)                 # YAO: 原先是True，输出是prompt拼接response，改为False，只保留response
         use_beam_search = params.get("use_beam_search", False)
         best_of = params.get("best_of", None)
 

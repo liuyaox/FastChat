@@ -298,7 +298,7 @@ async def get_gen_params(
         stop_token_ids=conv["stop_token_ids"],
     )
 
-    if isinstance(messages, str):
+    if isinstance(messages, str):       # YAO: messages是字符串也支持（相当于completion那个API）
         prompt = messages
         images = []
     else:
@@ -322,9 +322,9 @@ async def get_gen_params(
                     text = "\n".join(text_list)
                     conv.append_message(conv.roles[0], (text, image_list))
                 else:
-                    conv.append_message(conv.roles[0], message["content"])
+                    conv.append_message(conv.roles[0], message["content"])  # YAO: user映射为roles[0]
             elif msg_role == "assistant":
-                conv.append_message(conv.roles[1], message["content"])
+                conv.append_message(conv.roles[1], message["content"])      # YAO: assistant映射为roles[1]
             else:
                 raise ValueError(f"Unknown role: {msg_role}")
 

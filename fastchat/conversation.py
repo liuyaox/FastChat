@@ -95,7 +95,7 @@ class Conversation:
                 if message:
                     ret += role + ": " + message + self.sep
                 else:
-                    ret += role + ": "  # must be end with a space
+                    ret += role + ": "  # must be ended with a space
             return ret
         elif self.sep_style == SeparatorStyle.ADD_NEW_LINE_SINGLE:
             ret = "" if system_prompt == "" else system_prompt + self.sep
@@ -1617,6 +1617,17 @@ register_conv_template(
         sep_style=SeparatorStyle.NO_COLON_SINGLE,
         sep="<end_of_turn>\n",
         stop_str="<end_of_turn>",
+    )
+)
+
+# 自定义模板：对应Llama Factory里的custom_blank
+register_conv_template(
+    Conversation(
+        name="custom_blank",
+        system_template="{system_message}",
+        roles=("", ""),
+        sep_style=SeparatorStyle.NO_COLON_SINGLE,
+        sep=""
     )
 )
 

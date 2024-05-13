@@ -1,0 +1,1 @@
+/maindata/data/user/ai_story/shijund/miniconda3/envs/fastchat/bin/python -m fastchat.serve.controller --host=0.0.0.0 --port=21001
