@@ -1051,8 +1051,8 @@ register_conv_template(
         name="chatgpt",
         system_message="You are a helpful assistant.",
         roles=("user", "assistant"),
-        sep_style=SeparatorStyle.DEFAULT,
-        sep=None,
+        sep_style=SeparatorStyle.DEFAULT,   # YAO TODO 旧版是None，感觉像是bug，这版待验证
+        sep=None,                           # YAO TODO 旧版是None，同上
     )
 )
 
@@ -2042,6 +2042,18 @@ register_conv_template(
         roles=("user", "assistant"),
         sep_style=SeparatorStyle.DEFAULT,
         sep=None,
+    )
+)
+
+# MiniMax  YAO:添加于20240314  TODO 待完善！
+register_conv_template(
+    Conversation(
+        name="minimax",
+        system_template="[INST] {system_message}\n",
+        roles=("USER", "BOT"),
+        sep_style=SeparatorStyle.LLAMA2,
+        sep=" ",
+        sep2="</s>",
     )
 )
 

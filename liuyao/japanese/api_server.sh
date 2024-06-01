@@ -1,0 +1,1 @@
+python3 -m fastchat.serve.openai_api_server --host 0.0.0.0 --port 8031 --controller-address http://0.0.0.0:20001

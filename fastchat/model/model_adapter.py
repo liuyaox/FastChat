@@ -2419,6 +2419,19 @@ class RekaAdapter(BaseModelAdapter):
         return get_conv_template("api_based_default")
 
 
+class MinimaxAdapter(BaseModelAdapter):
+    """YAO: The model adapter for MiniMax models 添加于20240314"""
+
+    def match(self, model_path: str):
+        return "minimax" in model_path.lower()
+
+    def load_model(self, model_path: str, from_pretrained_kwargs: dict):
+        raise NotImplementedError
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("minimax")
+
+
 # Note: the registration order matters.
 # The one registered earlier has a higher matching priority.
 register_model_adapter(PeftModelAdapter)
@@ -2475,9 +2488,9 @@ register_model_adapter(CuteGPTAdapter)
 register_model_adapter(OpenOrcaAdapter)
 register_model_adapter(DolphinAdapter)
 register_model_adapter(Hermes2Adapter)
-register_model_adapter(NousHermes2MixtralAdapter)
+register_model_adapter(NousHermes2MixtralAdapter)   # YAO: 关键词nous-hermes-2-mixtral-8x7b-dpo或nous-hermes-2-mixtral-8x7b-sft
 register_model_adapter(NousHermesAdapter)
-register_model_adapter(MistralAdapter)
+register_model_adapter(MistralAdapter)              # YAO: 关键词mistral或mixtral，是上面一些adapter的关键词的子串，所以放在靠后位置
 register_model_adapter(WizardCoderAdapter)
 register_model_adapter(QwenChatAdapter)
 register_model_adapter(AquilaChatAdapter)
@@ -2519,6 +2532,7 @@ register_model_adapter(YandexGPTAdapter)
 register_model_adapter(CllmAdapter)
 register_model_adapter(RekaAdapter)
 register_model_adapter(SmaugChatAdapter)
+register_model_adapter(MinimaxAdapter)
 
 # After all adapters, try the default base adapter.
 register_model_adapter(BaseModelAdapter)
